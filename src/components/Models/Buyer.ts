@@ -14,12 +14,6 @@ export default class Buyer {
     this.address = data.address;
   }
 
-  // опциональные "по одному полю" — если удобно тестировать по шагам
-  public setPayment(v: TPayment) { this.payment = v; }
-  public setEmail(v: string) { this.email = v; }
-  public setPhone(v: string) { this.phone = v; }
-  public setAddress(v: string) { this.address = v; }
-
   // получить все данные покупателя
   public getData(): IBuyer {
     return {
