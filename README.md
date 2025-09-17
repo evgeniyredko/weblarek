@@ -69,7 +69,6 @@ Presenter - презентер содержит основную логику п
 `render(data?: Partial<T>): HTMLElement` - Главный метод класса. Он принимает данные, которые необходимо отобразить в интерфейсе, записывает эти данные в поля класса и возвращает ссылку на DOM-элемент. Предполагается, что в классах, которые будут наследоваться от `Component` будут реализованы сеттеры для полей с данными, которые будут вызываться в момент вызова `render` и записывать данные в необходимые DOM элементы.  
 `setImage(element: HTMLImageElement, src: string, alt?: string): void` - утилитарный метод для модификации DOM-элементов `<img>`
 
-
 #### Класс Api
 Содержит в себе базовую логику отправки запросов.
 
@@ -97,4 +96,125 @@ Presenter - презентер содержит основную логику п
 `on<T extends object>(event: EventName, callback: (data: T) => void): void` - подписка на событие, принимает название события и функцию обработчик.  
 `emit<T extends object>(event: string, data?: T): void` - инициализация события. При вызове события в метод передается название события и объект с данными, который будет использован как аргумент для вызова обработчика.  
 `trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие с передачей в него данных из второго параметра.
+
+### Данные
+
+#### Интерфейс IProduct
+Описывает товар в каталоге
+```
+export interface IProduct {
+  id: string;
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number | null;
+}
+```
+
+#### Интерфейс IBuyer
+Хранит данные покупателя, которые указываются при оформлении заказа
+```
+export interface IBuyer {
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
+}
+```
+
+#### Интерфейс IProductsResponse
+Структура ответа сервера при получении каталога товаров.
+```
+export interface IProductsResponse {
+  total: number;
+  items: IProduct[];
+}
+```
+
+#### Интерфейс IOrderRequest
+Структура данных заказа, отправляемых на сервер.
+```
+export interface IOrderRequest {
+  items: string[];
+  buyer: IBuyer;
+}
+```
+
+#### Интерфейс IOrderResponse
+Ответ сервера после успешного создания заказа.
+```
+export interface IOrderResponse {
+  id: string;
+  total?: number;
+}
+```
+
+### Модели данных
+Модели данных отвечают только за хранение и работу с данными. Они не связаны с отображением и не используют DOM.
+
+#### Класс Products
+Хранит массив всех товаров и выбранный для подробного просмотра товар.
+
+Конструктор класса не принимает параметров.
+
+Поля класса:  
+`products: IProduct[]` - массив всех товаров каталога.
+`currentProduct: IProduct | null` - выбранный товар.
+
+Методы класса:  
+`setItems(items: IProduct[]): void` - сохраняет массив товаров.
+`getItems(): IProduct[]` - возвращает массив всех товаров.
+`getProductById(id: string): IProduct | undefined` - возвращает товар по его id.
+`setCurrentProduct(product: IProduct): void` - сохраняет товар для просмотра.
+`getCurrentProduct(): IProduct | null` - возвращает выбранный товар.
+
+#### Класс Cart
+Хранит массив товаров, добавленных в корзину.
+
+Конструктор класса не принимает параметров.
+
+Поля класса:  
+`items: IProduct[]` - товары, выбранные для покупки.
+
+Методы класса:  
+`getItems(): IProduct[]` - возвращает все товары в корзине.
+`addItem(product: IProduct): void` - добавляет товар в корзину.
+`removeItem(product: IProduct): void` - удаляет товар из корзины.
+`clear(): void` - очищает корзину.
+`getTotalAmount(): number` - возвращает общую стоимость товаров.
+`getCount(): number` - возвращает количество товаров в корзине.
+`hasItem(id: string): boolean` - проверяет, есть ли товар в корзине по id.
+
+#### Класс Buyer
+Хранит данные покупателя при оформлении заказа.
+
+Конструктор класса не принимает параметров.
+
+Поля класса:  
+`payment: TPayment` - способ оплаты.
+`email: string` - адрес электронной почты.
+`phone: string` - телефон.
+`address: string` - адрес доставки.
+
+Методы класса:  
+`setData(data: IBuyer): void` - сохраняет все данные покупателя.
+`getData(): IBuyer` - возвращает все данные покупателя.
+`clear(): void` - очищает данные.
+`validate(): boolean` - проверяет корректность введённых данных.
+
+### Слой коммуникации
+
+#### Класс WeblarekApi
+Отвечает за работу с сервером, выполняет запросы для получения списка товаров и отправки заказов. Использует композицию с базовым классом Api.
+
+Конструктор:  
+`constructor(api: IApi)` - принимает объект, реализующий интерфейс IApi.
+
+У класса нет собственных полей.
+
+Методы класса:  
+`fetchProducts(): Promise<IProduct[]>` - выполняет GET /product/ и возвращает массив товаров.
+`submitOrder(payload: IOrderRequest): Promise<IOrderResponse>` - выполняет POST /order/ и отправляет данные заказа на сервер.
+
 
