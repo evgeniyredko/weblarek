@@ -199,6 +199,10 @@ export interface IOrderResponse {
 
 Методы класса:  
 `setData(data: IBuyer): void` - сохраняет все данные покупателя.  
+`setPayment(v: TPayment): void` — задаёт способ оплаты.  
+`setEmail(v: string): void` — задаёт email.  
+`setPhone(v: string): void` — задаёт телефон.  
+`setAddress(v: string): void` — задаёт адрес доставки.  
 `getData(): IBuyer` - возвращает все данные покупателя.  
 `clear(): void` - очищает данные.  
 `validate(): boolean` - проверяет корректность введённых данных.
