@@ -166,7 +166,7 @@ export interface IOrderResponse {
 `setItems(items: IProduct[]): void` - сохраняет массив товаров.  
 `getItems(): IProduct[]` - возвращает массив всех товаров.  
 `getProductById(id: string): IProduct | undefined` - возвращает товар по его id.  
-`setCurrentProduct(product: IProduct): void` - сохраняет товар для просмотра.  
+`setCurrentProduct(product: IProduct): void` - сохраняет выбранный товар.  
 `getCurrentProduct(): IProduct | null` - возвращает выбранный товар.
 
 #### Класс Cart
