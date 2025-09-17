@@ -67,7 +67,7 @@ Presenter - презентер содержит основную логику п
 
 Методы класса:  
 `render(data?: Partial<T>): HTMLElement` - Главный метод класса. Он принимает данные, которые необходимо отобразить в интерфейсе, записывает эти данные в поля класса и возвращает ссылку на DOM-элемент. Предполагается, что в классах, которые будут наследоваться от `Component` будут реализованы сеттеры для полей с данными, которые будут вызываться в момент вызова `render` и записывать данные в необходимые DOM элементы.  
-`setImage(element: HTMLImageElement, src: string, alt?: string): void` - утилитарный метод для модификации DOM-элементов `<img>`
+`setImage(element: HTMLImageElement, src: string, alt?: string): void` - утилитарный метод для модификации DOM-элементов `<img>`.
 
 #### Класс Api
 Содержит в себе базовую логику отправки запросов.
@@ -76,10 +76,10 @@ Presenter - презентер содержит основную логику п
 `constructor(baseUrl: string, options: RequestInit = {})` - В конструктор передается базовый адрес сервера и опциональный объект с заголовками запросов.
 
 Поля класса:  
-`baseUrl: string` - базовый адрес сервера  
+`baseUrl: string` - базовый адрес сервера.  
 `options: RequestInit` - объект с заголовками, которые будут использованы для запросов.
 
-Методы:  
+Методы класса:  
 `get(uri: string): Promise<object>` - выполняет GET запрос на переданный в параметрах ендпоинт и возвращает промис с объектом, которым ответил сервер  
 `post(uri: string, data: object, method: ApiPostMethods = 'POST'): Promise<object>` - принимает объект с данными, которые будут переданы в JSON в теле запроса, и отправляет эти данные на ендпоинт переданный как параметр при вызове метода. По умолчанию выполняется `POST` запрос, но метод запроса может быть переопределен заданием третьего параметра при вызове.  
 `handleResponse(response: Response): Promise<object>` - защищенный метод проверяющий ответ сервера на корректность и возвращающий объект с данными полученный от сервера или отклоненный промис, в случае некорректных данных.
@@ -159,14 +159,14 @@ export interface IOrderResponse {
 Конструктор класса не принимает параметров.
 
 Поля класса:  
-`products: IProduct[]` - массив всех товаров каталога.
+`products: IProduct[]` - массив всех товаров каталога.  
 `currentProduct: IProduct | null` - выбранный товар.
 
 Методы класса:  
-`setItems(items: IProduct[]): void` - сохраняет массив товаров.
-`getItems(): IProduct[]` - возвращает массив всех товаров.
-`getProductById(id: string): IProduct | undefined` - возвращает товар по его id.
-`setCurrentProduct(product: IProduct): void` - сохраняет товар для просмотра.
+`setItems(items: IProduct[]): void` - сохраняет массив товаров.  
+`getItems(): IProduct[]` - возвращает массив всех товаров.  
+`getProductById(id: string): IProduct | undefined` - возвращает товар по его id.  
+`setCurrentProduct(product: IProduct): void` - сохраняет товар для просмотра.  
 `getCurrentProduct(): IProduct | null` - возвращает выбранный товар.
 
 #### Класс Cart
@@ -178,12 +178,12 @@ export interface IOrderResponse {
 `items: IProduct[]` - товары, выбранные для покупки.
 
 Методы класса:  
-`getItems(): IProduct[]` - возвращает все товары в корзине.
-`addItem(product: IProduct): void` - добавляет товар в корзину.
-`removeItem(product: IProduct): void` - удаляет товар из корзины.
-`clear(): void` - очищает корзину.
-`getTotalAmount(): number` - возвращает общую стоимость товаров.
-`getCount(): number` - возвращает количество товаров в корзине.
+`getItems(): IProduct[]` - возвращает все товары в корзине.  
+`addItem(product: IProduct): void` - добавляет товар в корзину.  
+`removeItem(product: IProduct): void` - удаляет товар из корзины.  
+`clear(): void` - очищает корзину.  
+`getTotalAmount(): number` - возвращает общую стоимость товаров.  
+`getCount(): number` - возвращает количество товаров в корзине.  
 `hasItem(id: string): boolean` - проверяет, есть ли товар в корзине по id.
 
 #### Класс Buyer
@@ -192,15 +192,15 @@ export interface IOrderResponse {
 Конструктор класса не принимает параметров.
 
 Поля класса:  
-`payment: TPayment` - способ оплаты.
-`email: string` - адрес электронной почты.
-`phone: string` - телефон.
+`payment: TPayment` - способ оплаты.  
+`email: string` - адрес электронной почты.  
+`phone: string` - телефон.  
 `address: string` - адрес доставки.
 
 Методы класса:  
-`setData(data: IBuyer): void` - сохраняет все данные покупателя.
-`getData(): IBuyer` - возвращает все данные покупателя.
-`clear(): void` - очищает данные.
+`setData(data: IBuyer): void` - сохраняет все данные покупателя.  
+`getData(): IBuyer` - возвращает все данные покупателя.  
+`clear(): void` - очищает данные.  
 `validate(): boolean` - проверяет корректность введённых данных.
 
 ### Слой коммуникации
@@ -214,7 +214,7 @@ export interface IOrderResponse {
 У класса нет собственных полей.
 
 Методы класса:  
-`fetchProducts(): Promise<IProduct[]>` - выполняет GET /product/ и возвращает массив товаров.
+`fetchProducts(): Promise<IProduct[]>` - выполняет GET /product/ и возвращает массив товаров.  
 `submitOrder(payload: IOrderRequest): Promise<IOrderResponse>` - выполняет POST /order/ и отправляет данные заказа на сервер.
 
 
