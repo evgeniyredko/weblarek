@@ -124,7 +124,7 @@ export interface IBuyer {
 ```
 
 #### Интерфейс IProductsResponse
-Структура ответа сервера при получении каталога товаров.
+Структура ответа сервера при получении каталога товаров
 ```
 export interface IProductsResponse {
   total: number;
@@ -133,7 +133,7 @@ export interface IProductsResponse {
 ```
 
 #### Интерфейс IOrderRequest
-Структура данных заказа, отправляемых на сервер.
+Структура данных заказа, отправляемых на сервер
 ```
 export interface IOrderRequest {
   items: string[];
@@ -142,7 +142,7 @@ export interface IOrderRequest {
 ```
 
 #### Интерфейс IOrderResponse
-Ответ сервера после успешного создания заказа.
+Ответ сервера после успешного создания заказа
 ```
 export interface IOrderResponse {
   id: string;
