@@ -38,25 +38,26 @@ export default class Buyer {
     this.address = '';
   }
 
-  // Валидация полей
+  // валидация, возвращающая сообщения по каждому невалидному полю
   public validate(): {
-    email: boolean;
-    phone: boolean;
-    address: boolean;
-    payment: boolean;
+    errors: Partial<Record<'email' | 'phone' | 'address' | 'payment', string>>;
     isValid: boolean;
   } {
-    const emailOk = /\S+@\S+\.\S+/.test(this.email);
-    const phoneOk = this.phone.replace(/\D/g, '').length >= 10;
-    const addressOk = this.address.trim().length > 3;
-    const paymentOk = ['card', 'cash'].includes(this.payment);
+    const errors: Partial<Record<'email' | 'phone' | 'address' | 'payment', string>> = {};
 
-    return {
-      email: emailOk,
-      phone: phoneOk,
-      address: addressOk,
-      payment: paymentOk,
-      isValid: emailOk && phoneOk && addressOk && paymentOk,
-    };
+    if (!this.payment) {
+      errors.payment = 'Не выбран способ оплаты';
+    }
+    if (!this.address.trim()) {
+      errors.address = 'Не указан адрес';
+    }
+    if (!this.phone.trim()) {
+      errors.phone = 'Не указан телефон';
+    }
+    if (!this.email.trim()) {
+      errors.email = 'Не указан email';
+    }
+
+    return { errors, isValid: Object.keys(errors).length === 0 };
   }
 }

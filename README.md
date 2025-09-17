@@ -205,7 +205,7 @@ export interface IOrderResponse {
 `setAddress(v: string): void` — задаёт адрес доставки.  
 `getData(): IBuyer` - возвращает все данные покупателя.  
 `clear(): void` - очищает данные.  
-`validate(): { email: boolean; phone: boolean; address: boolean; payment: boolean; isValid: boolean }` - проверяет корректность каждого поля.
+`validate(): { errors: Partial<Record<'email' | 'phone' | 'address' | 'payment', string>>; isValid: boolean }` - проверяет корректность каждого поля.
 
 ### Слой коммуникации
 

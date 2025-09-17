@@ -52,7 +52,15 @@ const buyerData: IBuyer = {
 };
 buyerModel.setData(buyerData);
 console.log('Покупатель. Данные:', buyerModel.getData());
-console.log('Покупатель. Валидация:', buyerModel.validate());
+
+// проверка валидации
+const result = buyerModel.validate();
+if (result.isValid) {
+  console.log('Покупатель. Все данные валидны');
+} else {
+  console.log('Покупатель. Ошибки:', result.errors);
+}
+
 buyerModel.clear();
 console.log('Покупатель. После clear:', buyerModel.getData());
 
