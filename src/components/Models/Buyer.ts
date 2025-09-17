@@ -37,7 +37,7 @@ export default class Buyer {
     const emailOk = /\S+@\S+\.\S+/.test(this.email);
     const phoneOk = this.phone.replace(/\D/g, '').length >= 10; // простая проверка длины
     const addressOk = this.address.trim().length > 3;
-    const paymentOk = ['card', 'cash', 'sbp'].includes(this.payment);
+    const paymentOk = ['card', 'cash'].includes(this.payment);
     return emailOk && phoneOk && addressOk && paymentOk;
   }
 }
