@@ -14,6 +14,12 @@ export default class Buyer {
     this.address = data.address;
   }
 
+  // сохранить данные по одному полю
+  public setPayment(v: TPayment) { this.payment = v; }
+  public setEmail(v: string) { this.email = v; }
+  public setPhone(v: string) { this.phone = v; }
+  public setAddress(v: string) { this.address = v; }
+
   // получить все данные покупателя
   public getData(): IBuyer {
     return {
@@ -32,12 +38,25 @@ export default class Buyer {
     this.address = '';
   }
 
-  // базовая валидация полей
-  public validate(): boolean {
+  // Валидация полей
+  public validate(): {
+    email: boolean;
+    phone: boolean;
+    address: boolean;
+    payment: boolean;
+    isValid: boolean;
+  } {
     const emailOk = /\S+@\S+\.\S+/.test(this.email);
-    const phoneOk = this.phone.replace(/\D/g, '').length >= 10; // простая проверка длины
+    const phoneOk = this.phone.replace(/\D/g, '').length >= 10;
     const addressOk = this.address.trim().length > 3;
     const paymentOk = ['card', 'cash'].includes(this.payment);
-    return emailOk && phoneOk && addressOk && paymentOk;
+
+    return {
+      email: emailOk,
+      phone: phoneOk,
+      address: addressOk,
+      payment: paymentOk,
+      isValid: emailOk && phoneOk && addressOk && paymentOk,
+    };
   }
 }
