@@ -67,6 +67,7 @@ function renderCatalog() {
       title: p.title,
       image: p.image,
       category: p.category,
+      price: p.price,
     });
     // Выбор карточки - просто сохраняем currentProduct в модели
     el.addEventListener('click', () => productsModel.setCurrentProduct(p));

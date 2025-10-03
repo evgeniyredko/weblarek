@@ -259,12 +259,14 @@ export interface IOrderResponse {
 Поля класса:  
 `.card__category` - категория.  
 `.card__image` - изображение.  
-`.card__title` - заголовок.
+`.card__title` - заголовок.  
+`.card__price` - цена.
 
 Методы класса:  
 `set title(value: string)` - записывает заголовок.  
 `set category(value: string)` - текст категории + переключение CSS-модификаторов по categoryMap.  
 `set image(value: string)` - устанавливает src (через CDN_URL) и alt из заголовка.
+`set price(value: number | null)` - устанавливает цену.
 
 #### Класс CardPreview
 Полноразмерная карточка товара для модального окна.
