@@ -278,7 +278,7 @@ export interface IOrderResponse {
 `.card__title` - заголовок.  
 `.card__text` - описание.  
 `.card__price` - цена.  
-`.card__button` - кнопка «В корзину» / «Удалить из корзины».
+`.card__button` - кнопка "В корзину" / "Удалить из корзины".
 
 Методы класса:  
 `set image(value: string)` - проставляет src (через CDN) и alt.  
@@ -286,7 +286,7 @@ export interface IOrderResponse {
 `set title(value: string)` - записывает заголовок.  
 `set description(value: string)` - записывает описание.  
 `set price(value: number | null)` — устанавливает цену.  
-`set inCart(value: boolean)` - меняет текст кнопки на «Удалить из корзины», если товар уже в корзине.
+`set inCart(value: boolean)` - меняет текст кнопки на "Удалить из корзины", если товар уже в корзине.
 
 #### Класс BasketItem
 Строка товара в корзине: порядковый номер, название, цена, кнопка удаления.
@@ -307,7 +307,7 @@ export interface IOrderResponse {
 `set price(v: number | null)` - отображает цену.
 
 #### Класс Basket
-Контент корзины: список позиций, сумма, кнопка «Оформить».
+Контент корзины: список позиций, сумма, кнопка "Оформить".
 
 Конструктор:  
 `constructor(events: IEvents, container: HTMLElement)`
@@ -318,7 +318,7 @@ export interface IOrderResponse {
 `.basket__button` - оформить.
 
 Методы класса:  
-`set items(els: HTMLElement[])` - если список пуст, показывает «Корзина пуста» и блокирует кнопку. Иначе - рендерит элементы и разблокирует.  
+`set items(els: HTMLElement[])` - если список пуст, показывает "Корзина пуста" и блокирует кнопку. Иначе - рендерит элементы и разблокирует.  
 `set total(v: number)` - отображает сумму в синапсах.  
 `static createItem(events, tpl, product, index)` - фабрика BasketItem из шаблона #card-basket.
 
@@ -368,26 +368,32 @@ export interface IOrderResponse {
 Экран успешной оплаты.
 
 Конструктор:  
-`constructor(events: IEvents, container: HTMLElement)` -  узлы: .order-success__title, .order-success__description, .order-success__close.
+`constructor(events: IEvents, container: HTMLElement)` - узлы: .order-success__title, .order-success__description, .order-success__close.
 
 Поля класса:  
 `titleEl`, `descEl`, `closeBtn`.
 
 Методы класса:  
-`set total(value: number)` - выводит «Списано N синапсов».
+`set total(value: number)` - выводит "Списано N синапсов".
 
-### События приложения
+## События приложения
 
-- `basket:open` - нажата иконка корзины.  
-- `cart:add` - нажата кнопка «В корзину» в превью.  
-- `cart:remove` - удаление товара из корзины.  
-- `order:open` - нажата кнопка «Оформить» в корзине.  
-- `order:submit-step1` - отправлен шаг 1 формы оформления.  
-- `order:submit-step2` - отправлен шаг 2 формы оформления.  
-- `modal:close` - модальное окно закрыто.  
-- `preview:acted` - пользователь нажал в превью.  
-- `success:close` - закрыт экран успешной оплаты.  
-- `products:changed` - каталог товаров обновлён.  
-- `product:current-changed` - выбран текущий товар (или снят выбор).  
-- `cart:changed` - состояние корзины изменилось.  
-- `buyer:changed` - изменены данные покупателя.
+### Презентер
+Подписывается на события моделей и представлений, открывает/закрывает модальные экраны и инициирует рендеры. Сам событий не генерирует. Перерисовки выполняются только на событиях моделей данных и при открытии модальных окон.
+
+#### Модели
+- `products:changed` - перерисовать каталог.  
+- `product:current-changed` - открыть превью выбранного товара.  
+- `cart:changed` — обновить счётчик в шапке и содержимое корзины.  
+- `buyer:changed` - (рендер не требуется, формы валидируются локально).  
+
+#### Представления
+- `basket:open` — открыть корзину.  
+- `cart:add { id }` — добавить товар в корзину.  
+- `cart:remove { id }` — удалить товар из корзины.  
+- `order:open` — открыть оформление.  
+- `order:submit-step1 { payment, address }` — сохранить данные и открыть шаг 2.  
+- `order:submit-step2 { email, phone }` — отправить заказ, при успехе очистить корзину/данные покупателя и открыть экран "успеха".  
+- `preview:acted` — закрыть превью.  
+- `modal:close` — сброс локальных ссылок.  
+- `success:close` — закрыть модальное окно "успеха".
