@@ -177,26 +177,25 @@ events.on<{ payment: 'card' | 'cash'; address: string }>(
 );
 
 // Форма шага 2 - сохранить контакты, отправить заказ
-events.on<{ email: string; phone: string }>(
-  'order:submit-step2',
-  async ({ email, phone }) => {
-    buyerModel.setEmail(email);
-    buyerModel.setPhone(phone);
+import type { IOrderRequestWithTotal } from './types';
+events.on<{ email: string; phone: string }>('order:submit-step2', async ({ email, phone }) => {
+  buyerModel.setEmail(email);
+  buyerModel.setPhone(phone);
 
-    const items = cartModel.getItems().map((p) => p.id);
-    const buyer = buyerModel.getData();
-    const total = cartModel.getTotalAmount();
+  const items = cartModel.getItems().map((p) => p.id);
+  const buyer = buyerModel.getData();
+  const total = cartModel.getTotalAmount();
 
-    try {
-      await api.submitOrder({ items, buyer, total } as any);
-      cartModel.clear();
-      buyerModel.clear();
-      openSuccess(total);
-    } catch (e) {
-      console.error('Ошибка при оформлении заказа:', e);
-    }
+  const order: IOrderRequestWithTotal = { items, buyer, total };
+  try {
+    await api.submitOrder(order);
+    cartModel.clear();
+    buyerModel.clear();
+    openSuccess(total);
+  } catch (e) {
+    console.error('Ошибка при оформлении заказа:', e);
   }
-);
+});
 
 // Закрытие модалки: сбрасываем ссылку на корзину
 events.on('modal:close', () => {

@@ -37,6 +37,10 @@ export interface IOrderRequest {
   buyer: IBuyer; // данные покупателя
 }
 
+export interface IOrderRequestWithTotal extends IOrderRequest {
+  total?: number;
+}
+
 // Ответ сервера при создании заказа
 export interface IOrderResponse {
   id: string; // идентификатор заказа

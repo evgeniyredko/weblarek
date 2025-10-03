@@ -1,4 +1,4 @@
-import type { IApi, IProductsResponse, IProduct, IOrderRequest, IOrderResponse } from '../../types';
+import type { IApi, IProductsResponse, IProduct, IOrderRequestWithTotal, IOrderResponse } from '../../types';
 
 export class WeblarekApi {
   constructor(private api: IApi) {}
@@ -10,9 +10,8 @@ export class WeblarekApi {
   }
 
   // POST /order/ — отправить заказ
-  async submitOrder(payload: IOrderRequest): Promise<IOrderResponse> {
-    const { items, buyer } = payload as any;
-    const total = (payload as any).total;  // может быть undefined
+  async submitOrder(payload: IOrderRequestWithTotal): Promise<IOrderResponse> {
+    const { items, buyer, total } = payload;
 
     const body: Record<string, unknown> = {
       items,
@@ -28,7 +27,6 @@ export class WeblarekApi {
 
     return this.api.post<IOrderResponse>('/order/', body, 'POST');
   }
-
 }
 
 export default WeblarekApi;
