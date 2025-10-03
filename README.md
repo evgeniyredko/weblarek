@@ -336,7 +336,7 @@ export interface IOrderResponse {
 Конструктор:  
 `constructor(events: IEvents, container: HTMLElement)` - ищет: form[name="contacts"], input[name="email"], input[name="phone"], .form__errors, button[type="submit"].
 
-Методы класса:  
+Поля класса:  
 `form`, `email`, `phone`, `errors`, `payBtn`.
 
 Методы класса:  
@@ -348,7 +348,8 @@ export interface IOrderResponse {
 Конструктор:  
 `constructor(events: IEvents, container: HTMLElement)` -  узлы: .order-success__title, .order-success__description, .order-success__close.
 
-У класса нет собственных полей.
+Поля класса:  
+`titleEl`, `descEl`, `closeBtn`.
 
 Методы класса:  
 `set total(value: number)` - выводит «Списано N синапсов».
