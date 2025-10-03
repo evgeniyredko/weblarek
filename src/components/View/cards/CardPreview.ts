@@ -18,7 +18,7 @@ export class CardPreview extends Component<TCardPreview> {
   protected priceEl: HTMLElement;
   protected actionBtn: HTMLButtonElement;
 
-  private inCart = false;
+  private _inCart = false;
   private _id = '';
 
   constructor(protected events: IEvents, container: HTMLElement) {
@@ -32,7 +32,7 @@ export class CardPreview extends Component<TCardPreview> {
 
     this.actionBtn.addEventListener('click', () => {
       if (this.actionBtn.disabled) return;
-      if (this.inCart) this.events.emit('cart:remove', { id: this._id });
+      if (this._inCart) this.events.emit('cart:remove', { id: this._id });
       else this.events.emit('cart:add', { id: this._id });
 
       this.events.emit('preview:acted');
@@ -52,12 +52,12 @@ export class CardPreview extends Component<TCardPreview> {
   set price(value: number | null) {
     this.priceEl.textContent = value === null ? '—' : `${value} синапсов`;
     this.actionBtn.disabled = value === null;
-    this.actionBtn.textContent = value === null ? 'Недоступно' : (this.inCart ? 'Удалить из корзины' : 'В корзину');
+    this.actionBtn.textContent = value === null ? 'Недоступно' : (this._inCart ? 'Удалить из корзины' : 'В корзину');
   }
-  set inCartFlag(v: boolean | undefined) {
-    this.inCart = !!v;
+  set inCart(v: boolean | undefined) {
+    this._inCart = !!v;
     if (!this.actionBtn.disabled) {
-      this.actionBtn.textContent = this.inCart ? 'Удалить из корзины' : 'В корзину';
+      this.actionBtn.textContent = this._inCart ? 'Удалить из корзины' : 'В корзину';
     }
   }
 
