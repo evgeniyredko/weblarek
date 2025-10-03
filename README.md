@@ -239,7 +239,7 @@ export interface IOrderResponse {
 #### Класс Gallery
 
 Конструктор: 
-`constructor(container = ensureElement('main.gallery')` - по умолчанию находит корневой контейнер.
+`constructor(container = ensureElement('main.gallery'))` - по умолчанию находит корневой контейнер.
 
 Поля класса:  
 `catalogElement: HTMLElement` - корневой контейнер.
@@ -247,11 +247,14 @@ export interface IOrderResponse {
 Методы класса:  
 `set catalog(items: HTMLElement[])` - заменяет содержимое каталога на переданные элементы.
 
+#### Базовый класс карточек CardBase<T>
+Общий предок для всех карточек (каталог, превью, позиция корзины). Инкапсулирует общие сеттеры: title, price, image (через setImage), а также базовые обработчики клика.
+
 #### Класс CardCatalog
 Карточка в сетке каталога (кнопка/плитка): категория, изображение, заголовок.
 
 Конструктор:  
-`constructor(events: IEvents, container: HTMLElement)` - constructor(container: HTMLElement).  
+`constructor(container: HTMLElement)`
 
 Поля класса:  
 `.card__category` - категория.  
@@ -273,7 +276,7 @@ export interface IOrderResponse {
 `.basket__item-index` - индекс.  
 `.card__title` - заголовок.  
 `.card__price` - цена.  
-`.basket__item-delete` -удалить.
+`.basket__item-delete` - удалить.
 
 Методы класса:  
 `set id(v: string)` - сохраняет идентификатор для удаления.  
@@ -303,11 +306,17 @@ export interface IOrderResponse {
 Конструктор:  
 `constructor(events: IEvents, container = ensureElement('#modal-container'))` - ищет внутри контейнера .modal__content, .modal__close, .modal__container.  
 
-У класса нет собственных полей.
+Поля класса:  
+`content: HTMLElement` - контейнер содержимого.  
+`closeButton: HTMLButtonElement` - кнопка закрытия.  
+`inner: HTMLElement` - внутренний элемент модального окна.
 
 Методы класса:  
 `open(content: HTMLElement)` - вставляет содержимое, добавляет класс показа modal_active и блокирует скролл body.  
 `close()` - убирает класс, очищает содержимое, снимает блокировку скролла и эмитит modal:close.
+
+#### Базовый класс форм FormBase<T>
+Общий предок для форм. Содержит поиск `.form__errors`, общий `set errors(text)` и `set canSubmit(flag)` + метод `updateValidity()`.
 
 #### Класс OrderForm
 Способ оплаты и адрес доставки.
@@ -315,7 +324,11 @@ export interface IOrderResponse {
 Конструктор:  
 `constructor(events: IEvents, container: HTMLElement)` - ищет в контейнере: form[name="order"], input[name="address"], .form__errors, .order__button, button[name="card"], button[name="cash"].
 
-У класса нет собственных полей и методов.
+Поля класса:  
+`form`, `address`, `errors`, `nextBtn`, `btnCard`, `btnCash`, `payment`.
+
+Методы класса:  
+`set payment(...)`, `set addressValue(...)`, `updateValidity()`.
 
 #### Класс ContactsForm 
 Поля контактов: email и телефон.
@@ -323,7 +336,11 @@ export interface IOrderResponse {
 Конструктор:  
 `constructor(events: IEvents, container: HTMLElement)` - ищет: form[name="contacts"], input[name="email"], input[name="phone"], .form__errors, button[type="submit"].
 
-У класса нет собственных полей и методов.
+Методы класса:  
+`form`, `email`, `phone`, `errors`, `payBtn`.
+
+Методы класса:  
+`set emailValue(...)`, `set phoneValue(...)`, `updateValidity()`.
 
 #### Класс Success
 Экран успешной оплаты.
