@@ -11,8 +11,24 @@ export class WeblarekApi {
 
   // POST /order/ — отправить заказ
   async submitOrder(payload: IOrderRequest): Promise<IOrderResponse> {
-    return this.api.post<IOrderResponse>('/order/', payload, 'POST');
+    const { items, buyer } = payload as any;
+    const total = (payload as any).total;  // может быть undefined
+
+    const body: Record<string, unknown> = {
+      items,
+      payment: buyer.payment,
+      address: buyer.address,
+      email: buyer.email,
+      phone: buyer.phone,
+    };
+
+    if (typeof total === 'number') {
+      body.total = total;
+    }
+
+    return this.api.post<IOrderResponse>('/order/', body, 'POST');
   }
+
 }
 
 export default WeblarekApi;

@@ -19,7 +19,9 @@ export class OrderForm extends Component<IOrderForm> {
 
   constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
-    this.form = ensureElement<HTMLFormElement>('form[name="order"]', this.container);
+    this.form = this.container instanceof HTMLFormElement && this.container.name === 'order'
+    ? this.container
+    : ensureElement<HTMLFormElement>('form[name="order"]', this.container);
     this.address = ensureElement<HTMLInputElement>('input[name="address"]', this.form);
     this.errors = ensureElement<HTMLElement>('.form__errors', this.form);
     this.nextBtn = ensureElement<HTMLButtonElement>('.order__button', this.form);

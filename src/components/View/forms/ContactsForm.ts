@@ -16,7 +16,9 @@ export class ContactsForm extends Component<IContactsForm> {
 
   constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
-    this.form = ensureElement<HTMLFormElement>('form[name="contacts"]', this.container);
+    this.form = this.container instanceof HTMLFormElement && this.container.name === 'contacts'
+    ? this.container
+    : ensureElement<HTMLFormElement>('form[name="contacts"]', this.container);
     this.email = ensureElement<HTMLInputElement>('input[name="email"]', this.form);
     this.phone = ensureElement<HTMLInputElement>('input[name="phone"]', this.form);
     this.errors = ensureElement<HTMLElement>('.form__errors', this.form);

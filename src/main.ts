@@ -98,8 +98,8 @@ function openPreview(productId: string) {
 
 function openBasket() {
   basketView = new Basket(events, cloneTemplate(tplBasket));
+  modal.open(basketView.render());
   renderBasket();
-  modal.open(basketView.render({ items: [], total: cartModel.getTotalAmount() }));
 }
 
 function openOrderStep1() {
@@ -188,7 +188,7 @@ events.on<{ email: string; phone: string }>(
     const total = cartModel.getTotalAmount();
 
     try {
-      await api.submitOrder({ items, buyer });
+      await api.submitOrder({ items, buyer, total } as any);
       cartModel.clear();
       buyerModel.clear();
       openSuccess(total);
