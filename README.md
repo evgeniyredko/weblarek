@@ -375,3 +375,16 @@ export interface IOrderResponse {
 
 Методы класса:  
 `set total(value: number)` - выводит «Списано N синапсов».
+
+### События View → Presenter
+
+- `basket:open` - нажата иконка корзины.  
+- `card:select` - выбрана карточка в каталоге.  
+- `cart:add` - нажата кнопка «В корзину» в превью.  
+- `cart:remove` - удаление товара из корзины.  
+- `order:open` - нажата кнопка «Оформить» в корзине.  
+- `order:submit-step1` - отправлен шаг 1 формы оформления.  
+- `order:submit-step2` - отправлен шаг 2 формы оформления.  
+- `modal:close` - модальное окно закрыто.  
+- `preview:acted` - пользователь нажал в превью.  
+- `success:close` - закрыт экран успешной оплаты.

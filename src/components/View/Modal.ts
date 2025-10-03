@@ -23,8 +23,8 @@ export class Modal extends Component<IModal> {
 
   open(content: HTMLElement) {
     this.content.replaceChildren(content);
-    this.container.classList.add('modal_active');       // стили для показа
-    document.body.classList.add('page__body_locked');   // блокируем скролл
+    this.container.classList.add('modal_active');
+    document.body.classList.add('page__body_locked');
   }
 
   close() {
