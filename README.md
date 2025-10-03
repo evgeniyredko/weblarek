@@ -219,7 +219,7 @@ export interface IOrderResponse {
 
 Методы класса:  
 `fetchProducts(): Promise<IProduct[]>` - выполняет GET /product/ и возвращает массив товаров.  
-`submitOrder(payload: IOrderRequest): Promise<IOrderResponse>` - выполняет POST /order/ и отправляет данные заказа на сервер.
+`submitOrder(payload: IOrderRequestWithTotal): Promise<IOrderResponse>` - выполняет POST /order/ и отправляет данные заказа на сервер.
 
 ### Слой представления
 
