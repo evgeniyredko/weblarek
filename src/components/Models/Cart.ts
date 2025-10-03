@@ -1,6 +1,7 @@
 import type { IProduct } from '../../types';
+import { EventEmitter } from '../base/Events';
 
-export default class Cart {
+export default class Cart extends EventEmitter {
   // хранит товары, выбранные покупателем для покупки
   private items: IProduct[] = [];
 
@@ -14,16 +15,19 @@ export default class Cart {
     if (!product) return;
     // простая модель без количеств: один товар = одна позиция
     this.items.push(product);
+    this.emit('cart:changed', this.snapshot());
   }
 
   // удалить товар (по объекту)
   public removeItem(product: IProduct): void {
     this.items = this.items.filter((p) => p.id !== product.id);
+    this.emit('cart:changed', this.snapshot());
   }
 
   // очистить корзину
   public clear(): void {
     this.items = [];
+    this.emit('cart:changed', this.snapshot());
   }
 
   // получить стоимость всех товаров в корзине
@@ -40,5 +44,9 @@ export default class Cart {
   // проверка наличия товара по id
   public hasItem(id: string): boolean {
     return this.items.some((p) => p.id === id);
+  }
+
+  private snapshot() {
+    return { items: this.getItems(), total: this.getTotalAmount(), count: this.getCount() };
   }
 }

@@ -1,6 +1,7 @@
 import type { IBuyer, TPayment } from '../../types';
+import { EventEmitter } from '../base/Events';
 
-export default class Buyer {
+export default class Buyer extends EventEmitter {
   private payment: TPayment = 'card';
   private email = '';
   private phone = '';
@@ -12,13 +13,14 @@ export default class Buyer {
     this.email = data.email;
     this.phone = data.phone;
     this.address = data.address;
+    this.emit('buyer:changed', this.getData());
   }
 
   // сохранить данные по одному полю
-  public setPayment(v: TPayment) { this.payment = v; }
-  public setEmail(v: string) { this.email = v; }
-  public setPhone(v: string) { this.phone = v; }
-  public setAddress(v: string) { this.address = v; }
+  public setPayment(v: TPayment) { this.payment = v; this.emit('buyer:changed', this.getData()); }
+  public setEmail(v: string) { this.email = v; this.emit('buyer:changed', this.getData()); }
+  public setPhone(v: string) { this.phone = v; this.emit('buyer:changed', this.getData()); }
+  public setAddress(v: string) { this.address = v; this.emit('buyer:changed', this.getData()); }
 
   // получить все данные покупателя
   public getData(): IBuyer {
@@ -36,6 +38,7 @@ export default class Buyer {
     this.email = '';
     this.phone = '';
     this.address = '';
+    this.emit('buyer:changed', this.getData());
   }
 
   // валидация, возвращающая сообщения по каждому невалидному полю

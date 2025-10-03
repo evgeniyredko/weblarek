@@ -387,4 +387,8 @@ export interface IOrderResponse {
 - `order:submit-step2` - отправлен шаг 2 формы оформления.  
 - `modal:close` - модальное окно закрыто.  
 - `preview:acted` - пользователь нажал в превью.  
-- `success:close` - закрыт экран успешной оплаты.
+- `success:close` - закрыт экран успешной оплаты.  
+- `products:changed` - каталог товаров обновлён.  
+- `product:current-changed` - выбран текущий товар (или снят выбор).  
+- `cart:changed` - состояние корзины изменилось.  
+- `buyer:changed` - изменены данные покупателя.
