@@ -221,4 +221,117 @@ export interface IOrderResponse {
 `fetchProducts(): Promise<IProduct[]>` - выполняет GET /product/ и возвращает массив товаров.  
 `submitOrder(payload: IOrderRequest): Promise<IOrderResponse>` - выполняет POST /order/ и отправляет данные заказа на сервер.
 
+### Слой представления
 
+#### Класс Header
+Отвечает за область шапки: кнопка корзины и счётчик товаров.
+
+Конструктор:  
+`constructor(events: IEvents, container: HTMLElement)`
+
+Поля класса:  
+`counterElement: HTMLElement` - узел счётчика .header__basket-counter.  
+`basketButton: HTMLButtonElement` - кнопка корзины .header__basket.
+
+Методы класса:  
+`set counter(value: number)` - обновляет счётчик.
+
+#### Класс Gallery
+
+Конструктор: 
+`constructor(container = ensureElement('main.gallery')` - по умолчанию находит корневой контейнер.
+
+Поля класса:  
+`catalogElement: HTMLElement` - корневой контейнер.
+
+Методы класса:  
+`set catalog(items: HTMLElement[])` - заменяет содержимое каталога на переданные элементы.
+
+#### Класс CardCatalog
+Карточка в сетке каталога (кнопка/плитка): категория, изображение, заголовок.
+
+Конструктор:  
+`constructor(events: IEvents, container: HTMLElement)` - constructor(container: HTMLElement).  
+
+Поля класса:  
+`.card__category` - категория.  
+`.card__image` - изображение.  
+`.card__title` - заголовок.
+
+Методы класса:  
+`set title(value: string)` - записывает заголовок.  
+`set category(value: string)` - текст категории + переключение CSS-модификаторов по categoryMap.  
+`set image(value: string)` - устанавливает src (через CDN_URL) и alt из заголовка.
+
+#### Класс BasketItem
+Строка товара в корзине: порядковый номер, название, цена, кнопка удаления.
+
+Конструктор:  
+`constructor(events: IEvents, container: HTMLElement)`
+
+Поля класса:  
+`.basket__item-index` - индекс.  
+`.card__title` - заголовок.  
+`.card__price` - цена.  
+`.basket__item-delete` -удалить.
+
+Методы класса:  
+`set id(v: string)` - сохраняет идентификатор для удаления.  
+`set index(v: number)` - отображает порядковый номер.  
+`set title(v: string)` - отображает заголовок.  
+`set price(v: number | null)` - отображает цену.
+
+#### Класс Basket
+Контент корзины: список позиций, сумма, кнопка «Оформить».
+
+Конструктор:  
+`constructor(events: IEvents, container: HTMLElement)`
+
+Поля класса:  
+`.basket__list` - список.  
+`.basket__price` - сумма.  
+`.basket__button` - оформить.
+
+Методы класса:  
+`set items(els: HTMLElement[])` - если список пуст, показывает «Корзина пуста» и блокирует кнопку. иначе — рендерит элементы и разблокирует.  
+`set total(v: number)` - отображает сумму в синапсах.  
+`static createItem(events, tpl, product, index)` - фабрика BasketItem из шаблона #card-basket.
+
+#### Класс Modal
+Универсальное модальное окно. Само по себе не имеет наследников — внутрь вставляются самостоятельные компоненты (корзина, превью, формы и т.д.).
+
+Конструктор:  
+`constructor(events: IEvents, container = ensureElement('#modal-container'))` - ищет внутри контейнера .modal__content, .modal__close, .modal__container.  
+
+У класса нет собственных полей.
+
+Методы класса:  
+`open(content: HTMLElement)` - вставляет содержимое, добавляет класс показа modal_active и блокирует скролл body.  
+`close()` - убирает класс, очищает содержимое, снимает блокировку скролла и эмитит modal:close.
+
+#### Класс OrderForm
+Способ оплаты и адрес доставки.
+
+Конструктор:  
+`constructor(events: IEvents, container: HTMLElement)` - ищет в контейнере: form[name="order"], input[name="address"], .form__errors, .order__button, button[name="card"], button[name="cash"].
+
+У класса нет собственных полей и методов.
+
+#### Класс ContactsForm 
+Поля контактов: email и телефон.
+
+Конструктор:  
+`constructor(events: IEvents, container: HTMLElement)` - ищет: form[name="contacts"], input[name="email"], input[name="phone"], .form__errors, button[type="submit"].
+
+У класса нет собственных полей и методов.
+
+#### Класс Success
+Экран успешной оплаты.
+
+Конструктор:  
+`constructor(events: IEvents, container: HTMLElement)` -  узлы: .order-success__title, .order-success__description, .order-success__close.
+
+У класса нет собственных полей.
+
+Методы класса:  
+`set total(value: number)` - выводит «Списано N синапсов».
