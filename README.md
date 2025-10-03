@@ -266,6 +266,28 @@ export interface IOrderResponse {
 `set category(value: string)` - текст категории + переключение CSS-модификаторов по categoryMap.  
 `set image(value: string)` - устанавливает src (через CDN_URL) и alt из заголовка.
 
+#### Класс CardPreview
+Полноразмерная карточка товара для модального окна.
+
+Конструктор:  
+`constructor(events: IEvents, container: HTMLElement)`
+
+Поля класса:  
+`.card__image` - изображение.  
+`.card__category` - категория.  
+`.card__title` - заголовок.  
+`.card__text` - описание.  
+`.card__price` - цена.  
+`.card__button` - кнопка «В корзину» / «Удалить из корзины».
+
+Методы класса:  
+`set image(value: string)` - проставляет src (через CDN) и alt.  
+`set category(value: string)` - текст + модификатор по categoryMap.  
+`set title(value: string)` - записывает заголовок.  
+`set description(value: string)` - записывает описание.  
+`set price(value: number | null)` — устанавливает цену.  
+`set inCart(value: boolean)` - меняет текст кнопки на «Удалить из корзины», если товар уже в корзине.
+
 #### Класс BasketItem
 Строка товара в корзине: порядковый номер, название, цена, кнопка удаления.
 
@@ -296,7 +318,7 @@ export interface IOrderResponse {
 `.basket__button` - оформить.
 
 Методы класса:  
-`set items(els: HTMLElement[])` - если список пуст, показывает «Корзина пуста» и блокирует кнопку. иначе — рендерит элементы и разблокирует.  
+`set items(els: HTMLElement[])` - если список пуст, показывает «Корзина пуста» и блокирует кнопку. Иначе - рендерит элементы и разблокирует.  
 `set total(v: number)` - отображает сумму в синапсах.  
 `static createItem(events, tpl, product, index)` - фабрика BasketItem из шаблона #card-basket.
 
