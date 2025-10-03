@@ -376,7 +376,7 @@ export interface IOrderResponse {
 Методы класса:  
 `set total(value: number)` - выводит «Списано N синапсов».
 
-### События View → Presenter
+### События приложения
 
 - `basket:open` - нажата иконка корзины.  
 - `card:select` - выбрана карточка в каталоге.  
