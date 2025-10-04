@@ -22,7 +22,7 @@
     @include mixins.flex(column);
     gap: $defaultPadding;
     background-color: $background;
-    // min-height: 90vmin;
+    height: 90vh;
     border-radius: 3rem;
     box-sizing: border-box;
     position: relative;
@@ -30,6 +30,7 @@
 
   &__content {
     flex-grow: 1;
+    min-height: 0;
   }
 
   &__title {
