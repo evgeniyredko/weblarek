@@ -27,6 +27,8 @@ import { CardCatalog } from './components/View/cards/CardCatalog';
 import { CardPreview } from './components/View/cards/CardPreview';
 import { Success } from './components/View/Success';
 
+import type { IBuyer, IOrderRequestWithTotal } from './types';
+
 // ИНИЦИАЛИЗАЦИЯ
 
 const events = new EventEmitter();
@@ -139,7 +141,6 @@ cartModel.on<{ count: number }>('cart:changed', ({ count }) => {
 });
 
 // Данные покупателя изменились — синхронизируем поля обеих форм
-import type { IBuyer } from './types';
 buyerModel.on<IBuyer>('buyer:changed', (data) => {
   // шаг 1: способ оплаты и адрес
   orderFormView.payment = data.payment;
@@ -193,8 +194,6 @@ events.on<{ id: string }>('cart:remove', ({ id }) => {
 events.on('order:open', () => openOrderStep1());
 
 events.on('order:submit-step1', () => openOrderStep2());
-
-import type { IOrderRequestWithTotal } from './types';
 
 events.on('order:submit-step2', async () => {
   const items = cartModel.getItems().map((p) => p.id);
