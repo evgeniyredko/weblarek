@@ -220,7 +220,7 @@ events.on<{ field: 'payment'|'address'|'email'|'phone'; value: string }>('order:
 });
 
 // Закрытие модалки
-events.on('modal:close', () => modal.close());
+events.on('preview:close', () => modal.close());
 
 // Успешный экран - закрыть модалку
 events.on('success:close', () => modal.close());

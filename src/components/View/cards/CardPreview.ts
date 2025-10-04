@@ -35,7 +35,7 @@ export class CardPreview extends Component<TCardPreview> {
       if (this._inCart) this.events.emit('cart:remove', { id: this._id });
       else this.events.emit('cart:add', { id: this._id });
 
-      this.events.emit('modal:close');
+      this.events.emit('preview:close');
     });
   }
 

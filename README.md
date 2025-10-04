@@ -396,8 +396,8 @@ export interface IOrderResponse {
 - `card:select` - выбрать карточку каталога.  
 - `order:open` - открыть оформление.  
 - `order:change` - изменение полей форм.  
-- `order:submit-step1` - перейти на шаг 2.
-- `order:submit-step2` - отправить заказ.
-- `modal:close` - закрыть модальное окно. 
-- `modal:closed` - модальное окно закрылось.
+- `order:submit-step1` - перейти на шаг 2.  
+- `order:submit-step2` - отправить заказ.  
+- `preview:close` - закрыть модальное окно с карточкой товара.  
 - `success:close` - закрыть модальное окно "успеха".
+- `modal:closed` - модальное окно закрылось.  
