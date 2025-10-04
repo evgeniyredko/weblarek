@@ -186,26 +186,14 @@ events.on<{ id: string }>('cart:remove', ({ id }) => {
 // Корзина: перейти к оформлению
 events.on('order:open', () => openOrderStep1());
 
-// Форма шага 1 - сохранить способ оплаты и адрес, открыть шаг 2
-events.on<{ payment: 'card' | 'cash'; address: string }>(
-  'order:submit-step1',
-  ({ payment, address }) => {
-    buyerModel.setPayment(payment);
-    buyerModel.setAddress(address);
-    openOrderStep2();
-  }
-);
+events.on('order:submit-step1', () => openOrderStep2());
 
-// Форма шага 2 - сохранить контакты, отправить заказ
 import type { IOrderRequestWithTotal } from './types';
-events.on<{ email: string; phone: string }>('order:submit-step2', async ({ email, phone }) => {
-  buyerModel.setEmail(email);
-  buyerModel.setPhone(phone);
 
+events.on('order:submit-step2', async () => {
   const items = cartModel.getItems().map((p) => p.id);
   const buyer = buyerModel.getData();
   const total = cartModel.getTotalAmount();
-
   const order: IOrderRequestWithTotal = { items, buyer, total };
   try {
     await api.submitOrder(order);

@@ -387,7 +387,7 @@ export interface IOrderResponse {
 - `products:changed` - перерисовать каталог.  
 - `product:current-changed` - открыть превью выбранного товара.  
 - `cart:changed` - обновить счётчик в шапке и содержимое корзины.  
-- `buyer:changed` - (рендер не требуется, формы валидируются локально).  
+- `buyer:changed` - синхронизация значений полей форм.
 
 #### Представления
 - `basket:open` - открыть корзину.  
