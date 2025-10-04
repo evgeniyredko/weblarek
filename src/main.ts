@@ -60,6 +60,7 @@ const successView = new Success(events, cloneTemplate(tplSuccess));
 
 // стартовое состояние счётчика корзины
 header.counter = cartModel.getCount();
+renderBasket(); // чтобы кнопка "Оформить" была недоступна у пустой корзины
 
 // ХЕЛПЕРЫ РЕНДЕРА
 

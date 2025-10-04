@@ -1,4 +1,4 @@
-import { ensureElement, cloneTemplate } from '../../utils/utils';
+import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 import type { IEvents } from '../base/Events';
 import type { IProduct } from '../../types';
@@ -56,10 +56,4 @@ export class Basket extends Component<IBasketData> {
   }
 
   set total(v: number) { this.totalEl.textContent = `${v} синапсов`; }
-
-  static createItem(events: IEvents, tpl: HTMLTemplateElement, product: IProduct, index: number) {
-    const item = new BasketItem(events, cloneTemplate<HTMLLIElement>(tpl));
-    item.index = index;
-    return item.render({ id: product.id, title: product.title, price: product.price });
-  }
 }
