@@ -49,28 +49,17 @@ export class OrderForm extends Component<IOrderForm> {
     this._payment = v;
     this.btnCard.classList.toggle('button_alt-active', v === 'card');
     this.btnCash.classList.toggle('button_alt-active', v === 'cash');
-    this.updateValidity();
   }
 
   set addressValue(v: string) {
     this.address.value = v;
-    this.updateValidity();
   }
 
   set canSubmit(v: boolean) {
-  this.nextBtn.disabled = !v;
-}
+    this.nextBtn.disabled = !v;
+  }
 
-set errorsEl(text: string) {
-  this.errors.textContent = text ?? '';
-}
-
-  private updateValidity(): boolean {
-    const addrOk = this.address.value.trim().length > 0;
-    const payOk = !!this._payment;
-    const valid = addrOk && payOk;
-    this.nextBtn.disabled = !valid;
-    this.errors.textContent = !addrOk ? 'Не указан адрес' : (!payOk ? 'Не выбран способ оплаты' : '');
-    return valid;
+  set errorsEl(text: string) {
+    this.errors.textContent = text ?? '';
   }
 }

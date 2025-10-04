@@ -14,6 +14,7 @@ export default class Buyer extends EventEmitter {
     this.phone = data.phone;
     this.address = data.address;
     this.emit('buyer:changed', this.getData());
+    this.emitValidation();
   }
 
   // сохранить данные по одному полю
@@ -61,6 +62,7 @@ export default class Buyer extends EventEmitter {
     this.phone = '';
     this.address = '';
     this.emit('buyer:changed', this.getData());
+    this.emitValidation();
   }
 
   // валидация, возвращающая сообщения по каждому невалидному полю

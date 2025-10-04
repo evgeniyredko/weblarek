@@ -38,23 +38,14 @@ export class ContactsForm extends Component<IContactsForm> {
     });
   }
 
-  set emailValue(v: string) { this.email.value = v; this.updateValidity(); }
-  set phoneValue(v: string) { this.phone.value = v; this.updateValidity(); }
+  set emailValue(v: string) { this.email.value = v; }
+  set phoneValue(v: string) { this.phone.value = v; }
 
   set canSubmit(v: boolean) {
-  this.nextBtn.disabled = !v;
-}
+    this.nextBtn.disabled = !v;
+  }
 
-set errorsEl(text: string) {
-  this.errors.textContent = text ?? '';
-}
-
-  private updateValidity(): boolean {
-    const emailOk = this.email.value.trim().length > 0;
-    const phoneOk = this.phone.value.trim().length > 0;
-    const valid = emailOk && phoneOk;
-    this.nextBtn.disabled = !valid;
-    this.errors.textContent = !emailOk ? 'Не указан email' : (!phoneOk ? 'Не указан телефон' : '');
-    return valid;
+  set errorsEl(text: string) {
+    this.errors.textContent = text ?? '';
   }
 }
