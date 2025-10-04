@@ -8,6 +8,10 @@ export class Modal extends Component<IModal> {
   protected content: HTMLElement;
   protected closeButton: HTMLButtonElement;
   protected inner: HTMLElement;
+  private onEsc = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') this.close();
+  };
+  private isOpen = false;
 
   constructor(protected events: IEvents, container: HTMLElement = ensureElement<HTMLElement>('#modal-container')) {
     super(container);
@@ -25,12 +29,18 @@ export class Modal extends Component<IModal> {
     this.content.replaceChildren(content);
     this.container.classList.add('modal_active');
     document.body.classList.add('page__body_locked');
+    if (!this.isOpen) {
+      document.addEventListener('keydown', this.onEsc);
+      this.isOpen = true;
+    }
   }
 
   close() {
     this.container.classList.remove('modal_active');
     document.body.classList.remove('page__body_locked');
     this.content.replaceChildren();
-    this.events.emit('modal:closed');
+    document.removeEventListener('keydown', this.onEsc);
+    this.isOpen = false;
+    this.events.emit('modal:close');
   }
 }
