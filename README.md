@@ -361,7 +361,7 @@ export interface IOrderResponse {
 `constructor(events: IEvents, container: HTMLElement)` - ищет: form[name="contacts"], input[name="email"], input[name="phone"], .form__errors, button[type="submit"].
 
 Поля класса:  
-`form`, `email`, `phone`, `errors`, `payBtn`.
+`form`, `email`, `phone`, `errors`, `nextBtn`.
 
 Методы класса:  
 `set emailValue(...)`, `set phoneValue(...)`, `updateValidity()`.
@@ -391,12 +391,13 @@ export interface IOrderResponse {
 
 #### Представления
 - `basket:open` - открыть корзину.  
-- `cart:add { id }` - добавить товар в корзину.  
-- `cart:remove { id }` - удалить товар из корзины.  
-- `card:select { id }` - выбрать карточку каталога.
+- `cart:add` - добавить товар в корзину.  
+- `cart:remove` - удалить товар из корзины.  
+- `card:select` - выбрать карточку каталога.  
 - `order:open` - открыть оформление.  
-- `order:submit-step1 { payment, address }` - сохранить данные и открыть шаг 2.  
-- `order:submit-step2 { email, phone }` - отправить заказ, при успехе очистить корзину/данные покупателя и открыть экран "успеха".  
+- `order:change` - изменение полей форм.  
+- `order:submit-step1` - перейти на шаг 2.
+- `order:submit-step2` - отправить заказ.
 - `modal:close` - закрыть модальное окно. 
 - `modal:closed` - модальное окно закрылось.
 - `success:close` - закрыть модальное окно "успеха".

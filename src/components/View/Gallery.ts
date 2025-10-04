@@ -8,9 +8,9 @@ interface IGallery {
 export class Gallery extends Component<IGallery> {
   protected catalogElement: HTMLElement;
 
-  constructor(container: HTMLElement = ensureElement<HTMLElement>('main.gallery')) {
+  constructor(container = ensureElement<HTMLElement>('main.gallery')) {
     super(container);
-    this.catalogElement = container;
+    this.catalogElement = this.container;
   }
 
   set catalog(items: HTMLElement[]) {
