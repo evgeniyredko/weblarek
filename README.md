@@ -393,6 +393,7 @@ export interface IOrderResponse {
 - `basket:open` - открыть корзину.  
 - `cart:add { id }` - добавить товар в корзину.  
 - `cart:remove { id }` - удалить товар из корзины.  
+- `card:select { id }` - выбрать карточку каталога.
 - `order:open` - открыть оформление.  
 - `order:submit-step1 { payment, address }` - сохранить данные и открыть шаг 2.  
 - `order:submit-step2 { email, phone }` - отправить заказ, при успехе очистить корзину/данные покупателя и открыть экран "успеха".  
