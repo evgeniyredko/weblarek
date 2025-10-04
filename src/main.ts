@@ -20,7 +20,7 @@ import Buyer from './components/Models/Buyer';
 import { Header } from './components/View/Header';
 import { Gallery } from './components/View/Gallery';
 import { Modal } from './components/View/Modal';
-import { Basket } from './components/View/Basket';
+import { Basket, BasketItem } from './components/View/Basket';
 import { OrderForm } from './components/View/forms/OrderForm';
 import { ContactsForm } from './components/View/forms/ContactsForm';
 import { CardCatalog } from './components/View/cards/CardCatalog';
@@ -80,12 +80,15 @@ function renderCatalog() {
 
 function renderBasket() {
   const items = cartModel.getItems();
-  const itemNodes = items.map((p, i) =>
-    Basket.createItem(events, tplBasketItem, p, i + 1)
-  );
+  const itemNodes = items.map((p, i) => {
+    const item = new BasketItem(events, cloneTemplate(tplBasketItem));
+    item.index = i + 1;
+    return item.render({ id: p.id, title: p.title, price: p.price });
+  });
   basketView.items = itemNodes;
   basketView.total = cartModel.getTotalAmount();
 }
+
 
 function openPreview(productId: string) {
   const product = productsModel.getProductById(productId);
@@ -99,7 +102,6 @@ function openPreview(productId: string) {
 }
 
 function openBasket() {
-  renderBasket();
   modal.open(basketView.render());
 }
 
@@ -108,7 +110,6 @@ function openOrderStep1() {
   orderFormView.payment = buyer.payment;
   orderFormView.addressValue = buyer.address;
   modal.open(orderFormView.render());
-  buyerModel.setData(buyerModel.getData());
 }
 
 function openOrderStep2() {
