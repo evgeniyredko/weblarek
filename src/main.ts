@@ -169,6 +169,12 @@ buyerModel.on<{
 
 // ОБРАБОТЧИКИ СОБЫТИЙ ПРЕДСТАВЛЕНИЙ
 
+// Каталог: клик по карточке - выбрать товар
+events.on<{ id: string }>('card:select', ({ id }) => {
+  const product = productsModel.getProductById(id);
+  if (product) productsModel.setCurrentProduct(product);
+});
+
 // Header: открытие корзины
 events.on('basket:open', () => openBasket());
 
