@@ -64,16 +64,14 @@ header.counter = cartModel.getCount();
 function renderCatalog() {
   const items = productsModel.getItems();
   const nodes = items.map((p) => {
-    const card = new CardCatalog(cloneTemplate(tplCardCatalog));
-    const el = card.render({
+    const card = new CardCatalog(events, cloneTemplate(tplCardCatalog));
+    return card.render({
+      id: p.id,
       title: p.title,
       image: p.image,
       category: p.category,
       price: p.price,
     });
-    // Выбор карточки - просто сохраняем currentProduct в модели
-    el.addEventListener('click', () => productsModel.setCurrentProduct(p));
-    return el;
   });
   gallery.render({ catalog: nodes });
 }
@@ -199,6 +197,11 @@ events.on('modal:close', () => {});
 
 // Успешный экран: по кнопке - просто закрыть модалку
 events.on('success:close', () => modal.close());
+
+events.on<{ id: string }>('card:select', ({ id }) => {
+  const product = productsModel.getProductById(id);
+  if (product) productsModel.setCurrentProduct(product);
+});
 
 // ЗАГРУЗКА КАТАЛОГА
 api
