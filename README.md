@@ -397,6 +397,6 @@ export interface IOrderResponse {
 - `order:open` - открыть оформление.  
 - `order:submit-step1 { payment, address }` - сохранить данные и открыть шаг 2.  
 - `order:submit-step2 { email, phone }` - отправить заказ, при успехе очистить корзину/данные покупателя и открыть экран "успеха".  
-- `preview:acted` - закрыть превью.  
-- `modal:close` - сброс локальных ссылок.  
+- `modal:close` - закрыть модальное окно. 
+- `modal:closed` - модальное окно закрылось.
 - `success:close` - закрыть модальное окно "успеха".

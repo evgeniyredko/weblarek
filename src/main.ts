@@ -155,9 +155,6 @@ events.on<{ id: string }>('cart:remove', ({ id }) => {
   if (product) cartModel.removeItem(product);
 });
 
-// После действия в превью (купить/удалить) - закрыть модалку
-events.on('preview:acted', () => modal.close());
-
 // Корзина: перейти к оформлению
 events.on('order:open', () => openOrderStep1());
 
@@ -192,16 +189,11 @@ events.on<{ email: string; phone: string }>('order:submit-step2', async ({ email
   }
 });
 
-// Закрытие модалки: сбрасываем ссылку на корзину
-events.on('modal:close', () => {});
+// Закрытие модалки
+events.on('modal:close', () => modal.close());
 
-// Успешный экран: по кнопке - просто закрыть модалку
+// Успешный экран - закрыть модалку
 events.on('success:close', () => modal.close());
-
-events.on<{ id: string }>('card:select', ({ id }) => {
-  const product = productsModel.getProductById(id);
-  if (product) productsModel.setCurrentProduct(product);
-});
 
 // ЗАГРУЗКА КАТАЛОГА
 api

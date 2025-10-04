@@ -31,6 +31,6 @@ export class Modal extends Component<IModal> {
     this.container.classList.remove('modal_active');
     document.body.classList.remove('page__body_locked');
     this.content.replaceChildren();
-    this.events.emit('modal:close');
+    this.events.emit('modal:closed');
   }
 }
