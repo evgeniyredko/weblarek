@@ -108,6 +108,7 @@ function openOrderStep1() {
   orderFormView.payment = buyer.payment;
   orderFormView.addressValue = buyer.address;
   modal.open(orderFormView.render());
+  buyerModel.setData(buyerModel.getData());
 }
 
 function openOrderStep2() {
