@@ -337,7 +337,7 @@ export interface IOrderResponse {
 
 Методы класса:  
 `open(content: HTMLElement)` - вставляет содержимое, добавляет класс показа modal_active и блокирует скролл body.  
-`close()` - убирает класс, очищает содержимое, снимает блокировку скролла и эмитит modal:close.
+`close()` - убирает класс, очищает содержимое, снимает блокировку скролла и эмитит modal:closed.
 
 #### Базовый класс форм FormBase<T>
 Общий предок для форм. Содержит поиск `.form__errors`, общий `set errors(text)` и `set canSubmit(flag)` + метод `updateValidity()`.
