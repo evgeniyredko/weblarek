@@ -43,16 +43,18 @@ const gallery = new Gallery();
 const modal = new Modal(events);
 
 // templates
-const tplCardCatalog   = ensureElement<HTMLTemplateElement>('#card-catalog');
-const tplCardPreview   = ensureElement<HTMLTemplateElement>('#card-preview');
-const tplBasket        = ensureElement<HTMLTemplateElement>('#basket');
-const tplBasketItem    = ensureElement<HTMLTemplateElement>('#card-basket');
-const tplOrder         = ensureElement<HTMLTemplateElement>('#order');
-const tplContacts      = ensureElement<HTMLTemplateElement>('#contacts');
-const tplSuccess       = ensureElement<HTMLTemplateElement>('#success');
+const tplCardCatalog = ensureElement<HTMLTemplateElement>('#card-catalog');
+const tplCardPreview = ensureElement<HTMLTemplateElement>('#card-preview');
+const tplBasket = ensureElement<HTMLTemplateElement>('#basket');
+const tplBasketItem = ensureElement<HTMLTemplateElement>('#card-basket');
+const tplOrder = ensureElement<HTMLTemplateElement>('#order');
+const tplContacts = ensureElement<HTMLTemplateElement>('#contacts');
+const tplSuccess = ensureElement<HTMLTemplateElement>('#success');
 
-// локальные ссылки на View, чтобы обновлять их при событиях модели
-let basketView: Basket | null = null;
+const basketView = new Basket(events, cloneTemplate(tplBasket));
+const orderFormView = new OrderForm(events, cloneTemplate(tplOrder));
+const contactsFormView = new ContactsForm(events, cloneTemplate(tplContacts));
+const successView = new Success(events, cloneTemplate(tplSuccess));
 
 // стартовое состояние счётчика корзины
 header.counter = cartModel.getCount();
@@ -77,7 +79,6 @@ function renderCatalog() {
 }
 
 function renderBasket() {
-  if (!basketView) return;
   const items = cartModel.getItems();
   const itemNodes = items.map((p, i) =>
     Basket.createItem(events, tplBasketItem, p, i + 1)
@@ -98,31 +99,26 @@ function openPreview(productId: string) {
 }
 
 function openBasket() {
-  basketView = new Basket(events, cloneTemplate(tplBasket));
-  modal.open(basketView.render());
   renderBasket();
+  modal.open(basketView.render());
 }
 
 function openOrderStep1() {
-  const form = new OrderForm(events, cloneTemplate(tplOrder));
   const buyer = buyerModel.getData();
-  form.payment = buyer.payment;
-  form.addressValue = buyer.address;
-  modal.open(form.render());
+  orderFormView.payment = buyer.payment;
+  orderFormView.addressValue = buyer.address;
+  modal.open(orderFormView.render());
 }
 
 function openOrderStep2() {
-  const form = new ContactsForm(events, cloneTemplate(tplContacts));
   const buyer = buyerModel.getData();
-  form.emailValue = buyer.email;
-  form.phoneValue = buyer.phone;
-  modal.open(form.render());
+  contactsFormView.emailValue = buyer.email;
+  contactsFormView.phoneValue = buyer.phone;
+  modal.open(contactsFormView.render());
 }
 
 function openSuccess(total: number) {
-  const success = new Success(events, cloneTemplate(tplSuccess));
-  const node = success.render({ total });
-  modal.open(node);
+  modal.open(successView.render({ total }));
 }
 
 // ОБРАБОТЧИКИ СОБЫТИЙ МОДЕЛЕЙ
@@ -199,9 +195,7 @@ events.on<{ email: string; phone: string }>('order:submit-step2', async ({ email
 });
 
 // Закрытие модалки: сбрасываем ссылку на корзину
-events.on('modal:close', () => {
-  basketView = null;
-});
+events.on('modal:close', () => {});
 
 // Успешный экран: по кнопке - просто закрыть модалку
 events.on('success:close', () => modal.close());
