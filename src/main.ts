@@ -138,6 +138,34 @@ cartModel.on<{ count: number }>('cart:changed', ({ count }) => {
   renderBasket();
 });
 
+// Данные покупателя изменились — синхронизируем поля обеих форм
+import type { IBuyer } from './types';
+buyerModel.on<IBuyer>('buyer:changed', (data) => {
+  // шаг 1: способ оплаты и адрес
+  orderFormView.payment = data.payment;
+  orderFormView.addressValue = data.address;
+
+  // шаг 2: email и телефон
+  contactsFormView.emailValue = data.email;
+  contactsFormView.phoneValue = data.phone;
+});
+
+// Результаты валидации — показываем ошибки и включаем/выключаем кнопки
+buyerModel.on<{ 
+  errors: Partial<Record<'email' | 'phone' | 'address' | 'payment', string>>; 
+  isValid: boolean 
+}>('form:validate', ({ errors }) => {
+  // Валидность шага 1 — нет ошибок по адресу и оплате
+  const step1Valid = !errors.address && !errors.payment;
+  orderFormView.canSubmit = step1Valid;
+  orderFormView.errorsEl = errors.address || errors.payment || '';
+
+  // Валидность шага 2 — нет ошибок по email и телефону
+  const step2Valid = !errors.email && !errors.phone;
+  contactsFormView.canSubmit = step2Valid;
+  contactsFormView.errorsEl = errors.email || errors.phone || '';
+});
+
 
 // ОБРАБОТЧИКИ СОБЫТИЙ ПРЕДСТАВЛЕНИЙ
 
@@ -186,6 +214,15 @@ events.on<{ email: string; phone: string }>('order:submit-step2', async ({ email
     openSuccess(total);
   } catch (e) {
     console.error('Ошибка при оформлении заказа:', e);
+  }
+});
+
+events.on<{ field: 'payment'|'address'|'email'|'phone'; value: string }>('order:change', ({ field, value }) => {
+  switch (field) {
+    case 'payment': buyerModel.setPayment(value as 'card'|'cash'); break;
+    case 'address': buyerModel.setAddress(value); break;
+    case 'email':   buyerModel.setEmail(value); break;
+    case 'phone':   buyerModel.setPhone(value); break;
   }
 });
 

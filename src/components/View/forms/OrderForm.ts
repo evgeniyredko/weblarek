@@ -28,14 +28,20 @@ export class OrderForm extends Component<IOrderForm> {
     this.btnCard = ensureElement<HTMLButtonElement>('button[name="card"]', this.form);
     this.btnCash = ensureElement<HTMLButtonElement>('button[name="cash"]', this.form);
 
-    this.btnCard.addEventListener('click', () => this.payment = 'card');
-    this.btnCash.addEventListener('click', () => this.payment = 'cash');
-    this.address.addEventListener('input', () => this.updateValidity());
-    this.form.addEventListener('submit', (e) => {
+    this.address.addEventListener('input', () => {
+      this.events.emit('order:change', { field: 'address', value: this.address.value });
+    });
+    this.btnCard.addEventListener('click', () => {
+      this.events.emit('order:change', { field: 'payment', value: 'card' });
+    });
+    this.btnCash.addEventListener('click', () => {
+      this.events.emit('order:change', { field: 'payment', value: 'cash' });
+    });
+
+    this.nextBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (this.updateValidity()) {
-        this.events.emit('order:submit-step1', { payment: this._payment as TPayment, address: this.address.value.trim() });
-      }
+      if (this.nextBtn.disabled) return;
+      this.events.emit('order:submit-step1');
     });
   }
 
@@ -50,6 +56,14 @@ export class OrderForm extends Component<IOrderForm> {
     this.address.value = v;
     this.updateValidity();
   }
+
+  set canSubmit(v: boolean) {
+  this.nextBtn.disabled = !v;
+}
+
+set errorsEl(text: string) {
+  this.errors.textContent = text ?? '';
+}
 
   private updateValidity(): boolean {
     const addrOk = this.address.value.trim().length > 0;

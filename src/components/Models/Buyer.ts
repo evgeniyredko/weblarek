@@ -17,10 +17,32 @@ export default class Buyer extends EventEmitter {
   }
 
   // сохранить данные по одному полю
-  public setPayment(v: TPayment) { this.payment = v; this.emit('buyer:changed', this.getData()); }
-  public setEmail(v: string) { this.email = v; this.emit('buyer:changed', this.getData()); }
-  public setPhone(v: string) { this.phone = v; this.emit('buyer:changed', this.getData()); }
-  public setAddress(v: string) { this.address = v; this.emit('buyer:changed', this.getData()); }
+  public setPayment(v: TPayment) { 
+    this.payment = v; 
+    this.emit('buyer:changed', this.getData()); 
+    this.emitValidation();
+  }
+
+  public setEmail(v: string) { 
+    this.email = v; 
+    this.emit('buyer:changed', this.getData()); 
+    this.emitValidation();
+  }
+  public setPhone(v: string) { 
+    this.phone = v; 
+    this.emit('buyer:changed', this.getData());
+    this.emitValidation();
+  }
+  public setAddress(v: string) { 
+    this.address = v; 
+    this.emit('buyer:changed', this.getData());
+    this.emitValidation();
+  }
+
+  private emitValidation() {
+    const res = this.validate();
+    this.emit('form:validate', res);
+  }
 
   // получить все данные покупателя
   public getData(): IBuyer {

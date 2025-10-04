@@ -12,7 +12,7 @@ export class ContactsForm extends Component<IContactsForm> {
   protected email: HTMLInputElement;
   protected phone: HTMLInputElement;
   protected errors: HTMLElement;
-  protected payBtn: HTMLButtonElement;
+  protected nextBtn: HTMLButtonElement;
 
   constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
@@ -22,28 +22,38 @@ export class ContactsForm extends Component<IContactsForm> {
     this.email = ensureElement<HTMLInputElement>('input[name="email"]', this.form);
     this.phone = ensureElement<HTMLInputElement>('input[name="phone"]', this.form);
     this.errors = ensureElement<HTMLElement>('.form__errors', this.form);
-    this.payBtn = ensureElement<HTMLButtonElement>('button[type="submit"]', this.form);
+    this.nextBtn = ensureElement<HTMLButtonElement>('button[type="submit"]', this.form);
 
-    const validate = () => this.updateValidity();
-    this.email.addEventListener('input', validate);
-    this.phone.addEventListener('input', validate);
+    this.email.addEventListener('input', () => {
+      this.events.emit('order:change', { field: 'email', value: this.email.value });
+    });
+    this.phone.addEventListener('input', () => {
+      this.events.emit('order:change', { field: 'phone', value: this.phone.value });
+    });
 
-    this.form.addEventListener('submit', (e) => {
+    this.nextBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (this.updateValidity()) {
-        this.events.emit('order:submit-step2', { email: this.email.value.trim(), phone: this.phone.value.trim() });
-      }
+      if (this.nextBtn.disabled) return;
+      this.events.emit('order:submit-step2');
     });
   }
 
   set emailValue(v: string) { this.email.value = v; this.updateValidity(); }
   set phoneValue(v: string) { this.phone.value = v; this.updateValidity(); }
 
+  set canSubmit(v: boolean) {
+  this.nextBtn.disabled = !v;
+}
+
+set errorsEl(text: string) {
+  this.errors.textContent = text ?? '';
+}
+
   private updateValidity(): boolean {
     const emailOk = this.email.value.trim().length > 0;
     const phoneOk = this.phone.value.trim().length > 0;
     const valid = emailOk && phoneOk;
-    this.payBtn.disabled = !valid;
+    this.nextBtn.disabled = !valid;
     this.errors.textContent = !emailOk ? 'Не указан email' : (!phoneOk ? 'Не указан телефон' : '');
     return valid;
   }
